@@ -535,13 +535,13 @@
       iconLeft: 'glyphicon glyphicon-chevron-left',
       iconRight: 'glyphicon glyphicon-chevron-right'
     };
-    this.$get = [ '$window', '$document', '$rootScope', '$sce', '$dateFormatter', 'datepickerViews', '$tooltip', '$timeout', function($window, $document, $rootScope, $sce, $dateFormatter, datepickerViews, $tooltip, $timeout) {
+    this.$get = [ '$window', '$document', '$rootScope', '$sce', '$dateFormatter', 'datepickerViews', '$bstooltip', '$timeout', function($window, $document, $rootScope, $sce, $dateFormatter, datepickerViews, $bstooltip, $timeout) {
       var bodyEl = angular.element($window.document.body);
       var isNative = /(ip(a|o)d|iphone|android)/gi.test($window.navigator.userAgent);
       var isTouch = 'createTouch' in $window.document && isNative;
       if (!defaults.lang) defaults.lang = $dateFormatter.getDefaultLocale();
       function DatepickerFactory(element, controller, config) {
-        var $datepicker = $tooltip(element, angular.extend({}, defaults, config));
+        var $datepicker =  $bstooltip(element, angular.extend({}, defaults, config));
         var parentScope = config.scope;
         var options = $datepicker.$options;
         var scope = $datepicker.$scope;
@@ -1066,14 +1066,14 @@
       html: false,
       delay: 0
     };
-    this.$get = [ '$window', '$rootScope', '$tooltip', '$timeout', function($window, $rootScope, $tooltip, $timeout) {
+    this.$get = [ '$window', '$rootScope', ' $bstooltip', '$timeout', function($window, $rootScope,  $bstooltip, $timeout) {
       var bodyEl = angular.element($window.document.body);
       var matchesSelector = Element.prototype.matchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector;
       function DropdownFactory(element, config) {
         var $dropdown = {};
         var options = angular.extend({}, defaults, config);
         var scope = $dropdown.$scope = options.scope && options.scope.$new() || $rootScope.$new();
-        $dropdown = $tooltip(element, options);
+        $dropdown =  $bstooltip(element, options);
         var parentEl = element.parent();
         $dropdown.$onKeyDown = function(evt) {
           if (!/(38|40)/.test(evt.keyCode)) return;
@@ -2083,10 +2083,10 @@
       delay: 0,
       autoClose: false
     };
-    this.$get = [ '$tooltip', function($tooltip) {
+    this.$get = [ '$bstooltip', function($bstooltip) {
       function PopoverFactory(element, config) {
         var options = angular.extend({}, defaults, config);
-        var $popover = $tooltip(element, options);
+        var $popover = $bstooltip(element, options);
         if (options.content) {
           $popover.$scope.content = options.content;
         }
@@ -2346,14 +2346,14 @@
       maxLengthHtml: 'selected',
       iconCheckmark: 'glyphicon glyphicon-ok'
     };
-    this.$get = [ '$window', '$document', '$rootScope', '$tooltip', '$timeout', function($window, $document, $rootScope, $tooltip, $timeout) {
+    this.$get = [ '$window', '$document', '$rootScope', '$bstooltip', '$timeout', function($window, $document, $rootScope, $bstooltip, $timeout) {
       var bodyEl = angular.element($window.document.body);
       var isNative = /(ip(a|o)d|iphone|android)/gi.test($window.navigator.userAgent);
       var isTouch = 'createTouch' in $window.document && isNative;
       function SelectFactory(element, controller, config) {
         var $select = {};
         var options = angular.extend({}, defaults, config);
-        $select = $tooltip(element, options);
+        $select = $bstooltip(element, options);
         var scope = $select.$scope;
         scope.$matches = [];
         if (options.multiple) {
@@ -2740,13 +2740,13 @@
       iconDown: 'glyphicon glyphicon-chevron-down',
       arrowBehavior: 'pager'
     };
-    this.$get = [ '$window', '$document', '$rootScope', '$sce', '$dateFormatter', '$tooltip', '$timeout', function($window, $document, $rootScope, $sce, $dateFormatter, $tooltip, $timeout) {
+    this.$get = [ '$window', '$document', '$rootScope', '$sce', '$dateFormatter', '$bstooltip', '$timeout', function($window, $document, $rootScope, $sce, $dateFormatter, $bstooltip, $timeout) {
       var bodyEl = angular.element($window.document.body);
       var isNative = /(ip(a|o)d|iphone|android)/gi.test($window.navigator.userAgent);
       var isTouch = 'createTouch' in $window.document && isNative;
       if (!defaults.lang) defaults.lang = $dateFormatter.getDefaultLocale();
       function timepickerFactory(element, controller, config) {
-        var $timepicker = $tooltip(element, angular.extend({}, defaults, config));
+        var $timepicker = $bstooltip(element, angular.extend({}, defaults, config));
         var parentScope = config.scope;
         var options = $timepicker.$options;
         var scope = $timepicker.$scope;
@@ -3154,7 +3154,7 @@
       }
     };
   } ]);
-  angular.module('mgcrea.ngStrap.tooltip', [ 'mgcrea.ngStrap.helpers.dimensions' ]).provider('$tooltip', function() {
+  angular.module('mgcrea.ngStrap.tooltip', [ 'mgcrea.ngStrap.helpers.dimensions' ]).provider('$bstooltip', function() {
     var defaults = this.defaults = {
       animation: 'am-fade',
       customClass: '',
@@ -3185,11 +3185,11 @@
       var htmlReplaceRegExp = /ng-bind="/gi;
       var $body = angular.element($window.document);
       function TooltipFactory(element, config) {
-        var $tooltip = {};
+        var $bstooltip = {};
         var nodeName = element[0].nodeName.toLowerCase();
-        var options = $tooltip.$options = angular.extend({}, defaults, config);
-        $tooltip.$promise = fetchTemplate(options.template);
-        var scope = $tooltip.$scope = options.scope && options.scope.$new() || $rootScope.$new();
+        var options = $bstooltip.$options = angular.extend({}, defaults, config);
+        $bstooltip.$promise = fetchTemplate(options.template);
+        var scope = $bstooltip.$scope = options.scope && options.scope.$new() || $rootScope.$new();
         if (options.delay && angular.isString(options.delay)) {
           var split = options.delay.split(',').map(parseFloat);
           options.delay = split.length > 1 ? {
@@ -3197,34 +3197,34 @@
             hide: split[1]
           } : split[0];
         }
-        $tooltip.$id = options.id || element.attr('id') || '';
+        $bstooltip.$id = options.id || element.attr('id') || '';
         if (options.title) {
           scope.title = $sce.trustAsHtml(options.title);
         }
         scope.$setEnabled = function(isEnabled) {
           scope.$$postDigest(function() {
-            $tooltip.setEnabled(isEnabled);
+            $bstooltip.setEnabled(isEnabled);
           });
         };
         scope.$hide = function() {
           scope.$$postDigest(function() {
-            $tooltip.hide();
+            $bstooltip.hide();
           });
         };
         scope.$show = function() {
           scope.$$postDigest(function() {
-            $tooltip.show();
+            $bstooltip.show();
           });
         };
         scope.$toggle = function() {
           scope.$$postDigest(function() {
-            $tooltip.toggle();
+            $bstooltip.toggle();
           });
         };
-        $tooltip.$isShown = scope.$isShown = false;
+        $bstooltip.$isShown = scope.$isShown = false;
         var timeout, hoverState;
         if (options.contentTemplate) {
-          $tooltip.$promise = $tooltip.$promise.then(function(template) {
+          $bstooltip.$promise = $bstooltip.$promise.then(function(template) {
             var templateEl = angular.element(template);
             return fetchTemplate(options.contentTemplate).then(function(contentTemplate) {
               var contentEl = findElement('[ng-bind="content"]', templateEl[0]);
@@ -3235,15 +3235,15 @@
           });
         }
         var tipLinker, tipElement, tipTemplate, tipContainer, tipScope;
-        $tooltip.$promise.then(function(template) {
+        $bstooltip.$promise.then(function(template) {
           if (angular.isObject(template)) template = template.data;
           if (options.html) template = template.replace(htmlReplaceRegExp, 'ng-bind-html="');
           template = trim.apply(template);
           tipTemplate = template;
           tipLinker = $compile(template);
-          $tooltip.init();
+          $bstooltip.init();
         });
-        $tooltip.init = function() {
+        $bstooltip.init = function() {
           if (options.delay && angular.isNumber(options.delay)) {
             options.delay = {
               show: options.delay,
@@ -3263,28 +3263,28 @@
           }
           if (options.show) {
             scope.$$postDigest(function() {
-              options.trigger === 'focus' ? element[0].focus() : $tooltip.show();
+              options.trigger === 'focus' ? element[0].focus() : $bstooltip.show();
             });
           }
         };
-        $tooltip.destroy = function() {
+        $bstooltip.destroy = function() {
           unbindTriggerEvents();
           destroyTipElement();
           scope.$destroy();
         };
-        $tooltip.enter = function() {
+        $bstooltip.enter = function() {
           clearTimeout(timeout);
           hoverState = 'in';
           if (!options.delay || !options.delay.show) {
-            return $tooltip.show();
+            return $bstooltip.show();
           }
           timeout = setTimeout(function() {
-            if (hoverState === 'in') $tooltip.show();
+            if (hoverState === 'in') $bstooltip.show();
           }, options.delay.show);
         };
-        $tooltip.show = function() {
-          if (!options.bsEnabled || $tooltip.$isShown) return;
-          scope.$emit(options.prefixEvent + '.show.before', $tooltip);
+        $bstooltip.show = function() {
+          if (!options.bsEnabled || $bstooltip.$isShown) return;
+          scope.$emit(options.prefixEvent + '.show.before', $bstooltip);
           var parent, after;
           if (options.container) {
             parent = tipContainer;
@@ -3298,8 +3298,8 @@
             after = element;
           }
           if (tipElement) destroyTipElement();
-          tipScope = $tooltip.$scope.$new();
-          tipElement = $tooltip.$element = tipLinker(tipScope, function(clonedElement, scope) {});
+          tipScope = $bstooltip.$scope.$new();
+          tipElement = $bstooltip.$element = tipLinker(tipScope, function(clonedElement, scope) {});
           tipElement.css({
             top: '-9999px',
             left: '-9999px',
@@ -3311,9 +3311,9 @@
           if (options.type) tipElement.addClass(options.prefixClass + '-' + options.type);
           if (options.customClass) tipElement.addClass(options.customClass);
           after ? after.after(tipElement) : parent.prepend(tipElement);
-          $tooltip.$isShown = scope.$isShown = true;
+          $bstooltip.$isShown = scope.$isShown = true;
           safeDigest(scope);
-          $tooltip.$applyPlacement();
+          $bstooltip.$applyPlacement();
           if (angular.version.minor <= 2) {
             $animate.enter(tipElement, parent, after, enterAnimateCallback);
           } else {
@@ -3327,7 +3327,7 @@
           });
           if (options.keyboard) {
             if (options.trigger !== 'focus') {
-              $tooltip.focus();
+              $bstooltip.focus();
             }
             bindKeyboardEvents();
           }
@@ -3336,25 +3336,25 @@
           }
         };
         function enterAnimateCallback() {
-          scope.$emit(options.prefixEvent + '.show', $tooltip);
+          scope.$emit(options.prefixEvent + '.show', $bstooltip);
         }
-        $tooltip.leave = function() {
+        $bstooltip.leave = function() {
           clearTimeout(timeout);
           hoverState = 'out';
           if (!options.delay || !options.delay.hide) {
-            return $tooltip.hide();
+            return $bstooltip.hide();
           }
           timeout = setTimeout(function() {
             if (hoverState === 'out') {
-              $tooltip.hide();
+              $bstooltip.hide();
             }
           }, options.delay.hide);
         };
         var _blur;
         var _tipToHide;
-        $tooltip.hide = function(blur) {
-          if (!$tooltip.$isShown) return;
-          scope.$emit(options.prefixEvent + '.hide.before', $tooltip);
+        $bstooltip.hide = function(blur) {
+          if (!$bstooltip.$isShown) return;
+          scope.$emit(options.prefixEvent + '.hide.before', $bstooltip);
           _blur = blur;
           _tipToHide = tipElement;
           if (angular.version.minor <= 2) {
@@ -3362,7 +3362,7 @@
           } else {
             $animate.leave(tipElement).then(leaveAnimateCallback);
           }
-          $tooltip.$isShown = scope.$isShown = false;
+          $bstooltip.$isShown = scope.$isShown = false;
           safeDigest(scope);
           if (options.keyboard && tipElement !== null) {
             unbindKeyboardEvents();
@@ -3372,7 +3372,7 @@
           }
         };
         function leaveAnimateCallback() {
-          scope.$emit(options.prefixEvent + '.hide', $tooltip);
+          scope.$emit(options.prefixEvent + '.hide', $bstooltip);
           if (tipElement === _tipToHide) {
             if (_blur && options.trigger === 'focus') {
               return element[0].blur();
@@ -3380,19 +3380,19 @@
             destroyTipElement();
           }
         }
-        $tooltip.toggle = function() {
-          $tooltip.$isShown ? $tooltip.leave() : $tooltip.enter();
+        $bstooltip.toggle = function() {
+          $bstooltip.$isShown ? $bstooltip.leave() : $bstooltip.enter();
         };
-        $tooltip.focus = function() {
+        $bstooltip.focus = function() {
           tipElement[0].focus();
         };
-        $tooltip.setEnabled = function(isEnabled) {
+        $bstooltip.setEnabled = function(isEnabled) {
           options.bsEnabled = isEnabled;
         };
-        $tooltip.setViewport = function(viewport) {
+        $bstooltip.setViewport = function(viewport) {
           options.viewport = viewport;
         };
-        $tooltip.$applyPlacement = function() {
+        $bstooltip.$applyPlacement = function() {
           if (!tipElement) return;
           var placement = options.placement, autoToken = /\s?auto?\s?/i, autoPlace = autoToken.test(placement);
           if (autoPlace) {
@@ -3419,32 +3419,32 @@
           var tipPosition = getCalculatedOffset(placement, elementPosition, tipWidth, tipHeight);
           applyPlacement(tipPosition, placement);
         };
-        $tooltip.$onKeyUp = function(evt) {
-          if (evt.which === 27 && $tooltip.$isShown) {
-            $tooltip.hide();
+        $bstooltip.$onKeyUp = function(evt) {
+          if (evt.which === 27 && $bstooltip.$isShown) {
+            $bstooltip.hide();
             evt.stopPropagation();
           }
         };
-        $tooltip.$onFocusKeyUp = function(evt) {
+        $bstooltip.$onFocusKeyUp = function(evt) {
           if (evt.which === 27) {
             element[0].blur();
             evt.stopPropagation();
           }
         };
-        $tooltip.$onFocusElementMouseDown = function(evt) {
+        $bstooltip.$onFocusElementMouseDown = function(evt) {
           evt.preventDefault();
           evt.stopPropagation();
-          $tooltip.$isShown ? element[0].blur() : element[0].focus();
+          $bstooltip.$isShown ? element[0].blur() : element[0].focus();
         };
         function bindTriggerEvents() {
           var triggers = options.trigger.split(' ');
           angular.forEach(triggers, function(trigger) {
             if (trigger === 'click') {
-              element.on('click', $tooltip.toggle);
+              element.on('click', $bstooltip.toggle);
             } else if (trigger !== 'manual') {
-              element.on(trigger === 'hover' ? 'mouseenter' : 'focus', $tooltip.enter);
-              element.on(trigger === 'hover' ? 'mouseleave' : 'blur', $tooltip.leave);
-              nodeName === 'button' && trigger !== 'hover' && element.on(isTouch ? 'touchstart' : 'mousedown', $tooltip.$onFocusElementMouseDown);
+              element.on(trigger === 'hover' ? 'mouseenter' : 'focus', $bstooltip.enter);
+              element.on(trigger === 'hover' ? 'mouseleave' : 'blur', $bstooltip.leave);
+              nodeName === 'button' && trigger !== 'hover' && element.on(isTouch ? 'touchstart' : 'mousedown', $bstooltip.$onFocusElementMouseDown);
             }
           });
         }
@@ -3453,40 +3453,40 @@
           for (var i = triggers.length; i--; ) {
             var trigger = triggers[i];
             if (trigger === 'click') {
-              element.off('click', $tooltip.toggle);
+              element.off('click', $bstooltip.toggle);
             } else if (trigger !== 'manual') {
-              element.off(trigger === 'hover' ? 'mouseenter' : 'focus', $tooltip.enter);
-              element.off(trigger === 'hover' ? 'mouseleave' : 'blur', $tooltip.leave);
-              nodeName === 'button' && trigger !== 'hover' && element.off(isTouch ? 'touchstart' : 'mousedown', $tooltip.$onFocusElementMouseDown);
+              element.off(trigger === 'hover' ? 'mouseenter' : 'focus', $bstooltip.enter);
+              element.off(trigger === 'hover' ? 'mouseleave' : 'blur', $bstooltip.leave);
+              nodeName === 'button' && trigger !== 'hover' && element.off(isTouch ? 'touchstart' : 'mousedown', $bstooltip.$onFocusElementMouseDown);
             }
           }
         }
         function bindKeyboardEvents() {
           if (options.trigger !== 'focus') {
-            tipElement.on('keyup', $tooltip.$onKeyUp);
+            tipElement.on('keyup', $bstooltip.$onKeyUp);
           } else {
-            element.on('keyup', $tooltip.$onFocusKeyUp);
+            element.on('keyup', $bstooltip.$onFocusKeyUp);
           }
         }
         function unbindKeyboardEvents() {
           if (options.trigger !== 'focus') {
-            tipElement.off('keyup', $tooltip.$onKeyUp);
+            tipElement.off('keyup', $bstooltip.$onKeyUp);
           } else {
-            element.off('keyup', $tooltip.$onFocusKeyUp);
+            element.off('keyup', $bstooltip.$onFocusKeyUp);
           }
         }
         var _autoCloseEventsBinded = false;
         function bindAutoCloseEvents() {
           $timeout(function() {
             tipElement.on('click', stopEventPropagation);
-            $body.on('click', $tooltip.hide);
+            $body.on('click', $bstooltip.hide);
             _autoCloseEventsBinded = true;
           }, 0, false);
         }
         function unbindAutoCloseEvents() {
           if (_autoCloseEventsBinded) {
             tipElement.off('click', stopEventPropagation);
-            $body.off('click', $tooltip.hide);
+            $body.off('click', $bstooltip.hide);
             _autoCloseEventsBinded = false;
           }
         }
@@ -3639,7 +3639,7 @@
         }
         function destroyTipElement() {
           clearTimeout(timeout);
-          if ($tooltip.$isShown && tipElement !== null) {
+          if ($bstooltip.$isShown && tipElement !== null) {
             if (options.autoClose) {
               unbindAutoCloseEvents();
             }
@@ -3653,10 +3653,10 @@
           }
           if (tipElement) {
             tipElement.remove();
-            tipElement = $tooltip.$element = null;
+            tipElement = $bstooltip.$element = null;
           }
         }
-        return $tooltip;
+        return $bstooltip;
       }
       function safeDigest(scope) {
         scope.$$phase || scope.$root && scope.$root.$$phase || scope.$digest();
@@ -3675,7 +3675,7 @@
       }
       return TooltipFactory;
     } ];
-  }).directive('bsTooltip', [ '$window', '$location', '$sce', '$tooltip', '$$rAF', function($window, $location, $sce, $tooltip, $$rAF) {
+  }).directive('bsTooltip', [ '$window', '$location', '$sce', '$bstooltip', '$$rAF', function($window, $location, $sce, $bstooltip, $$rAF) {
     return {
       restrict: 'EAC',
       scope: true,
@@ -3730,7 +3730,7 @@
           if (!tooltip || !angular.isDefined(newValue)) return;
           tooltip.setViewport(newValue);
         });
-        var tooltip = $tooltip(element, options);
+        var tooltip = $bstooltip(element, options);
         scope.$on('$destroy', function() {
           if (tooltip) tooltip.destroy();
           options = null;
@@ -3758,12 +3758,12 @@
       comparator: '',
       trimValue: true
     };
-    this.$get = [ '$window', '$rootScope', '$tooltip', '$timeout', function($window, $rootScope, $tooltip, $timeout) {
+    this.$get = [ '$window', '$rootScope', '$bstooltip', '$timeout', function($window, $rootScope, $bstooltip, $timeout) {
       var bodyEl = angular.element($window.document.body);
       function TypeaheadFactory(element, controller, config) {
         var $typeahead = {};
         var options = angular.extend({}, defaults, config);
-        $typeahead = $tooltip(element, options);
+        $typeahead = $bstooltip(element, options);
         var parentScope = config.scope;
         var scope = $typeahead.$scope;
         scope.$resetMatches = function() {
